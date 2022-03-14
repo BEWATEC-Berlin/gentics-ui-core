@@ -117,6 +117,7 @@ export class DateTimePicker implements ControlValueAccessor, OnInit, OnDestroy {
     private _displaySeconds: boolean = true;
     private subscription: Subscription;
 
+    private selectedLanguage: string;
     // ValueAccessor members
     onChange: any = () => {};
     onTouched: any = () => {};
@@ -128,21 +129,17 @@ export class DateTimePicker implements ControlValueAccessor, OnInit, OnDestroy {
         if (!formatProvider) {
             this.formatProvider = new DateTimePickerFormatProvider();
         }
+
+        switch (this.formatProvider.strings.hours) {
+            case 'Stunde':
+                this.selectedLanguage = 'de';
+                break;
+            default:
+                this.selectedLanguage = 'en';
+        }
     }
 
     ngOnInit(): void {
-        console.log('ngOnInit() -> momentjs.locales():', momentjs.locales());
-        console.log('ngOnInit() -> momentjs.locales():', momentjs.locale());
-        /*momentjs.updateLocale('en', {
-            week: {
-                dow : 1, // Monday is the first day of the week.
-            }
-        });
-        momentjs.updateLocale('de', {
-            week: {
-                dow : 1, // Monday is the first day of the week.
-            }
-        });*/
         this.subscription = this.formatProvider.changed$
             .subscribe(() => this.updateDisplayValue());
     }
@@ -226,11 +223,12 @@ export class DateTimePicker implements ControlValueAccessor, OnInit, OnDestroy {
         if (!this.value) {
             this.displayValue = '';
         } else if (this.format) {
+            this.value.locale(this.selectedLanguage);
             this.displayValue = this.value.format(this.format);
         } else {
+            this.value.locale(this.selectedLanguage);
             this.displayValue = this.formatProvider.format(this.value, this._displayTime, this._displaySeconds);
         }
-
         this.changeDetector.markForCheck();
     }
 

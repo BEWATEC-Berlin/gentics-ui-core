@@ -1,6 +1,6 @@
 {
   "name": "@bewatec-berlin/gentics-ui-core",
-  "version": "8.0.23",
+  "version": "8.0.37",
   "license": "Apache-2.0",
   "dependencies": {
     "foundation-sites": "~6.5.3",

@@ -206,10 +206,7 @@ export class DateTimePickerControls implements OnDestroy {
      */
     ngAfterViewInit(): void {
         let calendarEl: Element = this.calendarContainer.nativeElement;
-
-        const cfg = this.getRomeConfig();
-        console.log('ngAfterViewInit() -> cfg:', cfg);
-        this.cal = rome(calendarEl, cfg)
+        this.cal = rome(calendarEl, this.getRomeConfig())
             .on('data', () => {
                 this.value = this.cal.getMoment();
                 this.change.emit(this.value.unix());
@@ -242,7 +239,7 @@ export class DateTimePickerControls implements OnDestroy {
         }
         if (this.value != null) {
             romeConfig.weekdayFormat = this.value.localeData().weekdaysMin();
-            console.log('romeConfig.weekdayFormat:', romeConfig.weekdayFormat);
+
             this.value.localeData().set({
                 week: {
                     dow : 1, // Monday is the first day of the week.
@@ -250,10 +247,7 @@ export class DateTimePickerControls implements OnDestroy {
 
             });
             romeConfig.weekStart = this.value.localeData().firstDayOfWeek();
-            console.log('romeConfig.weekStart:', romeConfig.weekStart);
-            // romeConfig.weekStart = 1;
         }
-
         return romeConfig;
     }
 
