@@ -131,6 +131,18 @@ export class DateTimePicker implements ControlValueAccessor, OnInit, OnDestroy {
     }
 
     ngOnInit(): void {
+        console.log('ngOnInit() -> momentjs.locales():', momentjs.locales());
+        console.log('ngOnInit() -> momentjs.locales():', momentjs.locale());
+        /*momentjs.updateLocale('en', {
+            week: {
+                dow : 1, // Monday is the first day of the week.
+            }
+        });
+        momentjs.updateLocale('de', {
+            week: {
+                dow : 1, // Monday is the first day of the week.
+            }
+        });*/
         this.subscription = this.formatProvider.changed$
             .subscribe(() => this.updateDisplayValue());
     }
