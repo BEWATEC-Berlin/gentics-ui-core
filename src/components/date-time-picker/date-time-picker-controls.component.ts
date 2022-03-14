@@ -155,6 +155,7 @@ export class DateTimePickerControls implements OnDestroy {
         }
 
         this.value = momentjs.unix(Number(this.timestamp));
+
         this.setupProviderChangeHook();
 
         this.min = this.min instanceof Date ? this.min : new Date(-MAX_DATE_MILLISECONDS);
@@ -205,7 +206,6 @@ export class DateTimePickerControls implements OnDestroy {
      */
     ngAfterViewInit(): void {
         let calendarEl: Element = this.calendarContainer.nativeElement;
-
         this.cal = rome(calendarEl, this.getRomeConfig())
             .on('data', () => {
                 this.value = this.cal.getMoment();
@@ -239,9 +239,15 @@ export class DateTimePickerControls implements OnDestroy {
         }
         if (this.value != null) {
             romeConfig.weekdayFormat = this.value.localeData().weekdaysMin();
+
+            this.value.localeData().set({
+                week: {
+                    dow : 1, // Monday is the first day of the week.
+                }
+
+            });
             romeConfig.weekStart = this.value.localeData().firstDayOfWeek();
         }
-
         return romeConfig;
     }
 
