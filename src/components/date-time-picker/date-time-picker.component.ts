@@ -61,6 +61,9 @@ export class DateTimePicker implements ControlValueAccessor, OnInit, OnDestroy {
     /** Value to set on the ngModel when the DatePicker is cleared. */
     @Input() emptyValue: any = null;
 
+    /** Value to be set as default value. */
+    @Input() defaultDateTime: number;
+
     /** The date/time value as a unix timestamp (in seconds). */
     @Input() timestamp: number;
 
@@ -171,7 +174,7 @@ export class DateTimePicker implements ControlValueAccessor, OnInit, OnDestroy {
                 padding: false
             },
             {
-                timestamp: (this.value || momentjs()).unix(),
+                timestamp: (this.value || momentjs(this.defaultDateTime) || momentjs()).unix(),
                 formatProvider: this.formatProvider,
                 displayTime: this._displayTime,
                 displaySeconds: this._displaySeconds,
